@@ -6,13 +6,25 @@ import { Comment } from '../Comment'
 import { Posts as PostsType } from '../../App'
 
 import styles from './styles.module.css'
+import { FormEvent, useState } from 'react'
 
 interface PostPros extends PostsType { }
+
+type CommentData = {
+
+}
 
 export function Post({ author, content, publishedAt }: PostPros) {
     // Datas //
     const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'ás' HH:mm'h'", { locale: ptBR })
     const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, { locale: ptBR, addSuffix: true })
+    // State //
+    const [comments, setComments] = useState([])
+
+    function handleCreateNewComment(event: FormEvent) {
+        event.preventDefault()
+
+    }
 
     return (
         <article className={styles.post}>
@@ -44,7 +56,7 @@ export function Post({ author, content, publishedAt }: PostPros) {
                 }
             </div>
 
-            <form className={styles.commentForm}>
+            <form className={styles.commentForm} onSubmit={handleCreateNewComment}>
                 <strong>Deixe seu feedback</strong>
 
                 <textarea placeholder='Deixe um comentário' />
@@ -57,8 +69,6 @@ export function Post({ author, content, publishedAt }: PostPros) {
             </form>
 
             <div className={styles.commentList}>
-                <Comment />
-                <Comment />
                 <Comment />
             </div>
         </article>
