@@ -1,11 +1,19 @@
+import { format, formatDistanceToNow } from 'date-fns'
+import ptBR from 'date-fns/locale/pt-BR'
+
 import { Avatar } from '../Avatar'
 import { Comment } from '../Comment'
-import styles from './styles.module.css'
-import { Posts } from '../../App'
+import { Posts as PostsType } from '../../App'
 
-interface PostPros extends Posts { }
+import styles from './styles.module.css'
+
+interface PostPros extends PostsType { }
 
 export function Post({ author, content, publishedAt }: PostPros) {
+    // Datas //
+    const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'ás' HH:mm'h'", { locale: ptBR })
+    const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, { locale: ptBR, addSuffix: true })
+
     return (
         <article className={styles.post}>
             <header>
@@ -18,16 +26,21 @@ export function Post({ author, content, publishedAt }: PostPros) {
                     </div>
                 </div>
 
-                <time dateTime='2022-05-11 08:11:30' title='11 de Maio ás 11:13'>
-                    Publicado há 1h
+                <time dateTime={publishedAt.toISOString()} title={publishedDateFormatted}>
+                    {publishedDateRelativeToNow}
                 </time>
             </header>
 
             <div className={styles.content}>
                 {
-                    content.map(paragraph => (
-                        <p>{paragraph.content}</p>
-                    ))
+                    content.map(paragraph => {
+                        if (paragraph.type === 'paragraph') {
+                            return <p>{paragraph.content}</p>
+                        }
+                        else if (paragraph.type === 'link') {
+                            return <p><a href="">{paragraph.content}</a></p>
+                        }
+                    })
                 }
             </div>
 
