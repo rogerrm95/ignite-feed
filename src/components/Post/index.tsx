@@ -30,7 +30,9 @@ export function Post({ author, content, publishedAt }: PostPros) {
     }
 
     function deleteComment(comment: any) {
-        console.log(comment)
+        const commentsWithoutDeletedOne = comments.filter(commentToDelete => comment !== commentToDelete)
+        
+        setComments(commentsWithoutDeletedOne)
     }
 
     return (
@@ -83,7 +85,7 @@ export function Post({ author, content, publishedAt }: PostPros) {
             <div className={styles.commentList}>
                 {
                     comments.map(comment => (
-                        <Comment key={comment} content={comment} onDeleteComment={deleteComment}/>
+                        <Comment key={comment} content={comment} onDeleteComment={deleteComment} />
                     ))
                 }
             </div>
