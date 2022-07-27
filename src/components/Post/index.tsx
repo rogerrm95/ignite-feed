@@ -6,7 +6,7 @@ import { Comment } from '../Comment'
 import { Posts as PostsType } from '../../App'
 
 import styles from './styles.module.css'
-import { FormEvent, useState } from 'react'
+import { FormEvent, TextareaHTMLAttributes, useState } from 'react'
 
 interface PostPros extends PostsType { }
 
@@ -19,11 +19,14 @@ export function Post({ author, content, publishedAt }: PostPros) {
     const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'ás' HH:mm'h'", { locale: ptBR })
     const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, { locale: ptBR, addSuffix: true })
     // State //
-    const [comments, setComments] = useState([])
+    const [comments, setComments] = useState(['Post muito legal, certo ?'])
+    const [newComments, setNewComments] = useState('')
 
     function handleCreateNewComment(event: FormEvent) {
         event.preventDefault()
 
+        setComments([...comments, newComments])
+        setNewComments('')
     }
 
     return (
@@ -59,7 +62,12 @@ export function Post({ author, content, publishedAt }: PostPros) {
             <form className={styles.commentForm} onSubmit={handleCreateNewComment}>
                 <strong>Deixe seu feedback</strong>
 
-                <textarea placeholder='Deixe um comentário' />
+                <textarea
+                    placeholder='Deixe um comentário'
+                    value={newComments}
+                    onChange={(e) => setNewComments(e.target.value)}
+                    required
+                />
 
                 <footer>
                     <button type='submit'>
@@ -69,8 +77,20 @@ export function Post({ author, content, publishedAt }: PostPros) {
             </form>
 
             <div className={styles.commentList}>
-                <Comment />
+                {
+                    comments.map(comment => (
+                        <Comment content={comment} />
+                    ))
+                }
             </div>
         </article>
     )
 }
+/* 
+# Programação imperativa - O que deve ser feito
+    - Analogia - Receita de bolo
+    - Passo a Passo
+
+# Programação declarativa - Quais as condições para se ter o resultado final.
+    - React
+*/
