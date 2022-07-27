@@ -29,6 +29,10 @@ export function Post({ author, content, publishedAt }: PostPros) {
         setNewComments('')
     }
 
+    function deleteComment(comment: any) {
+        console.log(comment)
+    }
+
     return (
         <article className={styles.post}>
             <header>
@@ -79,7 +83,7 @@ export function Post({ author, content, publishedAt }: PostPros) {
             <div className={styles.commentList}>
                 {
                     comments.map(comment => (
-                        <Comment key={comment} content={comment} />
+                        <Comment key={comment} content={comment} onDeleteComment={deleteComment}/>
                     ))
                 }
             </div>

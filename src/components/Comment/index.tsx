@@ -3,10 +3,16 @@ import { Avatar } from '../Avatar'
 import styles from './styles.module.css'
 
 interface CommentProps {
-    content: string
+    content: string,
+    onDeleteComment: (content: any) => void
 }
 
-export function Comment({ content }: CommentProps) {
+export function Comment({ content, onDeleteComment }: CommentProps) {
+
+    function handleDeleteComment() {
+        onDeleteComment(content)
+    }
+
     return (
         <div className={styles.comment}>
             <Avatar source='https://github.com/rogerrm95.png' hasBorder={false} />
@@ -20,7 +26,7 @@ export function Comment({ content }: CommentProps) {
                             </time>
                         </div>
 
-                        <button title='Deletar comentário'>
+                        <button title='Deletar comentário' onClick={() => handleDeleteComment()}>
                             <Trash size={24} />
                         </button>
 
