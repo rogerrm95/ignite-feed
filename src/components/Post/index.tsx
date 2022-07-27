@@ -50,10 +50,10 @@ export function Post({ author, content, publishedAt }: PostPros) {
                 {
                     content.map(paragraph => {
                         if (paragraph.type === 'paragraph') {
-                            return <p>{paragraph.content}</p>
+                            return <p key={paragraph.content}>{paragraph.content}</p>
                         }
                         else if (paragraph.type === 'link') {
-                            return <p><a href="">{paragraph.content}</a></p>
+                            return <p key={paragraph.content}><a href="">{paragraph.content}</a></p>
                         }
                     })
                 }
@@ -79,7 +79,7 @@ export function Post({ author, content, publishedAt }: PostPros) {
             <div className={styles.commentList}>
                 {
                     comments.map(comment => (
-                        <Comment content={comment} />
+                        <Comment key={comment} content={comment} />
                     ))
                 }
             </div>
