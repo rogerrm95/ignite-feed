@@ -6,13 +6,9 @@ import { Comment } from '../Comment'
 import { Posts as PostsType } from '../../App'
 
 import styles from './styles.module.css'
-import { FormEvent, TextareaHTMLAttributes, useState } from 'react'
+import { ChangeEvent, FormEvent, TextareaHTMLAttributes, useState } from 'react'
 
 interface PostPros extends PostsType { }
-
-type CommentData = {
-
-}
 
 export function Post({ author, content, publishedAt }: PostPros) {
     // Datas //
@@ -29,8 +25,12 @@ export function Post({ author, content, publishedAt }: PostPros) {
         setNewComments('')
     }
 
-    function deleteComment(comment: any) {
-        const commentsWithoutDeletedOne = comments.filter(commentToDelete => comment !== commentToDelete)
+    function handleNewCommentChange(event: ChangeEvent<HTMLTextAreaElement>) {
+        setNewComments(event.target.value)
+    }
+
+    function deleteComment(commentToDelete: string) {
+        const commentsWithoutDeletedOne = comments.filter(comment => comment !== commentToDelete)
         
         setComments(commentsWithoutDeletedOne)
     }
@@ -73,7 +73,7 @@ export function Post({ author, content, publishedAt }: PostPros) {
                 <textarea
                     placeholder='Deixe um comentário'
                     value={newComments}
-                    onChange={(e) => setNewComments(e.target.value)}
+                    onChange={handleNewCommentChange}
                     required
                 />
 
